@@ -4,11 +4,11 @@ generator client {
   moduleFormat = "cjs"
 }
 
-generator client_frontend {
-  provider     = "prisma-client"
-  output       = "../../frontend/node_modules/.prisma/client"
-  moduleFormat = "cjs"
-}
+// generator client_frontend {
+//   provider     = "prisma-client"
+//   output       = "../../frontend/node_modules/.prisma/client"
+//   moduleFormat = "cjs"
+// }
 
 datasource db {
   provider = "postgresql"
