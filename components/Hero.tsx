@@ -20,22 +20,22 @@ export default function Hero() {
                         </p>
                     </div>
 
-                    {/* Rating */}
-                    <div className="flex items-center gap-3">
-                        <div className="flex gap-1">
-                            {[...Array(5)].map((_, i) => (
-                                <svg
-                                    key={i}
-                                    className="w-5 h-5 text-yellow-400 fill-current"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                                </svg>
+                    {/* Social Proof (Stacked Images) */}
+                    <div className="flex items-center gap-4">
+                        <div className="flex -space-x-3">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gray-200">
+                                    <img
+                                        src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                                        alt={`User ${i}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
                             ))}
                         </div>
-                        <span className="text-sm text-foreground-light font-medium">
-                            5000+ users
-                        </span>
+                        <div className="text-sm text-foreground-light">
+                            <span className="font-bold text-primary text-lg">500+</span> joined today
+                        </div>
                     </div>
 
                     {/* CTA Buttons */}
