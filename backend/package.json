@@ -5,12 +5,12 @@
   "main": "api/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "prisma generate && prisma db push --accept-data-loss"
+    "vercel-build": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@prisma/client": "^7.2.0",
     "dotenv": "^17.2.3",
