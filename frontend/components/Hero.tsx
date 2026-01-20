@@ -1,4 +1,21 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import RegistrationModal from "./RegistrationModal";
+
 export default function Hero() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [stats, setStats] = useState({ total: 500, recentUsers: [] });
+
+    useEffect(() => {
+        fetch("http://localhost:4000/api/stats")
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.total) setStats(data);
+            })
+            .catch((err) => console.error("Failed to fetch stats:", err));
+    }, []);
+
     return (
         <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 md:pt-40 pb-16 overflow-hidden">
             {/* Background gradient */}
@@ -23,25 +40,40 @@ export default function Hero() {
                     {/* Social Proof (Stacked Images) */}
                     <div className="flex items-center gap-4">
                         <div className="flex -space-x-3">
-                            {[1, 2, 3, 4, 5].map((i) => (
-                                <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gray-200">
-                                    <img
-                                        src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                                        alt={`User ${i}`}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            ))}
+                            {stats.recentUsers.length > 0 ? (
+                                stats.recentUsers.map((user: any, i: number) => (
+                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gray-200">
+                                        <img
+                                            src={user.image || `https://i.pravatar.cc/100?img=${i + 10}`}
+                                            alt={`User ${i}`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                [1, 2, 3, 4, 5].map((i) => (
+                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gray-200">
+                                        <img
+                                            src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                                            alt={`User ${i}`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                ))
+                            )}
                         </div>
                         <div className="text-sm text-foreground-light">
-                            <span className="font-bold text-primary text-lg">500+</span> joined today
+                            <span className="font-bold text-primary text-lg">{stats.total}+</span> joined today
                         </div>
                     </div>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <button className="bg-primary-gradient hover:opacity-90 text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2">
-                            Try it for free
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-primary-gradient hover:opacity-90 text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                        >
+                            Join Waitlist
                             <svg
                                 className="w-5 h-5"
                                 fill="none"
@@ -153,6 +185,8 @@ export default function Hero() {
                     </div>
                 </div>
             </div>
+
+            <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </section>
     );
 }
