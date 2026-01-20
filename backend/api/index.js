@@ -7,19 +7,37 @@ require("dotenv").config();
 
 const app = express();
 
-const connectionString = `${process.env.DATABASE_URL}`;
+// Singleton pattern for Prisma Client to reuse connections across function invocations
+let prisma;
+let pool;
 
-const pool = new Pool({
-  connectionString,
-  max: 20, // Maximum number of clients in the pool
-  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
-  connectionTimeoutMillis: 10000, // Return an error after 10 seconds if connection could not be established
-  ssl: {
-    rejectUnauthorized: false, // Required for Neon
-  },
-});
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+function getPrismaClient() {
+  if (!prisma) {
+    const connectionString = process.env.DATABASE_URL;
+
+    if (!connectionString) {
+      throw new Error("DATABASE_URL environment variable is not set");
+    }
+
+    // Optimized for serverless: use minimal connections
+    pool = new Pool({
+      connectionString,
+      max: 1, // Serverless functions should use minimal connections
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
+      ssl: {
+        rejectUnauthorized: false, // Required for Neon
+      },
+    });
+
+    const adapter = new PrismaPg(pool);
+    prisma = new PrismaClient({
+      adapter,
+      log: ["error", "warn"], // Enable logging for debugging
+    });
+  }
+  return prisma;
+}
 
 app.use(cors());
 app.use(express.json());
@@ -32,6 +50,7 @@ app.get("/", (req, res) => {
 // Manual Waitlist Registration
 app.post("/api/waitlist", async (req, res) => {
   try {
+    const prisma = getPrismaClient();
     const { name, email, phone, message } = req.body;
 
     if (!name || !email) {
@@ -58,13 +77,15 @@ app.post("/api/waitlist", async (req, res) => {
     res.status(201).json(entry);
   } catch (error) {
     console.error("Waitlist Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    const errorMessage = error.message || "Internal Server Error";
+    res.status(500).json({ error: errorMessage });
   }
 });
 
 // Get Stats (for Hero section)
 app.get("/api/stats", async (req, res) => {
   try {
+    const prisma = getPrismaClient();
     const userCount = await prisma.user.count();
     const waitlistCount = await prisma.waitlistEntry.count();
     const total = userCount + waitlistCount + 500; // +500 base as per design
@@ -79,7 +100,8 @@ app.get("/api/stats", async (req, res) => {
     res.json({ total, recentUsers });
   } catch (error) {
     console.error("Stats Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    const errorMessage = error.message || "Internal Server Error";
+    res.status(500).json({ error: errorMessage });
   }
 });
 
