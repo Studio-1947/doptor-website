@@ -1,4 +1,4 @@
-import allowCors from "../lib/cors";
+import allowCors from "../lib/cors.js";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {

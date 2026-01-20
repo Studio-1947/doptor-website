@@ -1,5 +1,5 @@
-import prisma from "../lib/prisma";
-import allowCors from "../lib/cors";
+import prisma from "../lib/prisma.js";
+import allowCors from "../lib/cors.js";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
