@@ -1,4 +1,14 @@
 {
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
@@ -7,6 +17,9 @@
   ],
   "functions": {
     "api/**/*.js": {
+      "maxDuration": 10
+    },
+    "server.js": {
       "maxDuration": 10
     }
   }
