@@ -15,12 +15,12 @@ export default function Hero() {
         const fetchStats = async () => {
             try {
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
-                const res = await fetch(`${apiUrl}/api/waitlist/stats`);
+                const res = await fetch(`${apiUrl}/api/stats`);
                 const data = await res.json();
 
-                if (data.count !== undefined) {
+                if (data.total !== undefined) {
                     setStats({
-                        count: data.count,
+                        count: data.total,
                         recentUsers: data.recentUsers || []
                     });
                 }
