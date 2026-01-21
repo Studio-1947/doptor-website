@@ -8,7 +8,8 @@ export default function Hero() {
     const [stats, setStats] = useState({ total: 500, recentUsers: [] });
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats`)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
+        fetch(`${apiUrl}/api/stats`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.total) setStats(data);

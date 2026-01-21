@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "./prisma";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { db } from "../db";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma as any),
+  adapter: DrizzleAdapter(db),
   providers: [Google],
   callbacks: {
     async session({ session, user }) {

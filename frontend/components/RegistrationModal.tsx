@@ -25,7 +25,9 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
         setLoading(true);
         try {
             // Call Backend API
-            const res = await fetch(`/api/waitlist`, {
+            // Call Backend API
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
+            const res = await fetch(`${apiUrl}/api/waitlist`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
