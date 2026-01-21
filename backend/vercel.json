@@ -1,25 +1,12 @@
 {
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api/$1"
+      "destination": "/api/index.js"
     }
   ],
   "functions": {
-    "api/**/*.js": {
-      "maxDuration": 10
-    },
-    "server.js": {
+    "api/index.js": {
       "maxDuration": 10
     }
   }
