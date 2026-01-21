@@ -29,10 +29,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
 
           if (!response.ok) {
-            console.error(
-              "Failed to create waitlist entry:",
-              await response.text(),
-            );
+            const errorText = await response.text();
+            // If email is already registered, that's fine - just log it and allow sign in
+            if (errorText.includes("Email already registered")) {
+              console.log("User already in waitlist:", user.email);
+              return true;
+            }
+            console.error("Failed to create waitlist entry:", errorText);
           }
         } catch (error) {
           console.error("Error creating waitlist entry:", error);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -19,19 +19,52 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
     });
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [stats, setStats] = useState<{ count: number; recentUsers: any[] } | null>(null);
+
+    // Fetch stats on mount
+    useEffect(() => {
+        if (isOpen) {
+            const fetchStats = async () => {
+                try {
+                    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
+                    const res = await fetch(`${apiUrl}/api/waitlist/stats`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setStats(data);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch stats:", error);
+                }
+            };
+            fetchStats();
+        }
+    }, [isOpen]);
+
+    // Check for session to show success state
+    useEffect(() => {
+        const checkSession = async () => {
+            const res = await fetch("/api/auth/session");
+            const session = await res.json();
+            if (session?.user) {
+                setSuccess(true);
+            }
+        };
+        if (isOpen) {
+            checkSession();
+        }
+    }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            // Call Backend API
-            // Call Backend API
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
             const res = await fetch(`${apiUrl}/api/waitlist`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
+
             if (res.ok) {
                 setSuccess(true);
                 setTimeout(() => {
@@ -41,7 +74,18 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                     setFormData({ name: "", email: "", phone: "", message: "" });
                 }, 2000);
             } else {
-                alert("Something went wrong. Please try again.");
+                const errorData = await res.json();
+                if (errorData.error === "Email already registered") {
+                    setSuccess(true); // Treat as success
+                    setTimeout(() => {
+                        onClose();
+                        setSuccess(false);
+                        setIsManual(false);
+                        setFormData({ name: "", email: "", phone: "", message: "" });
+                    }, 2000);
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
             }
         } catch (error) {
             console.error(error);
@@ -92,7 +136,29 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                                 <>
                                     <div className="text-center mb-8">
                                         <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 mb-2">Join the Waitlist</h2>
-                                        <p className="text-gray-500">Get early access to Doptor and shape the future.</p>
+                                        <p className="text-gray-500 mb-6">Get early access to Doptor and shape the future.</p>
+
+                                        {/* Stats Section */}
+                                        {stats && (
+                                            <div className="flex items-center justify-center gap-3 mb-6 bg-gray-50/80 py-2 px-4 rounded-full w-fit mx-auto border border-gray-100">
+                                                <div className="flex -space-x-2">
+                                                    {stats.recentUsers.map((user, i) => (
+                                                        <div key={i} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200 relative">
+                                                            {user.image ? (
+                                                                <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                                                            ) : (
+                                                                <div className="w-full h-full flex items-center justify-center text-[10px] font-bold text-gray-500">
+                                                                    {user.initials}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-600">
+                                                    <span className="text-blue-600 font-bold">{stats.count}+</span> joined the waitlist
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {!isManual ? (
