@@ -15,8 +15,11 @@ export default function Hero() {
         const fetchStats = async () => {
             try {
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
+                console.log("Fetching stats from:", `${apiUrl}/api/stats`);
                 const res = await fetch(`${apiUrl}/api/stats`);
+                console.log("Response status:", res.status);
                 const data = await res.json();
+                console.log("Stats data received:", data);
 
                 if (data.total !== undefined) {
                     setStats({
