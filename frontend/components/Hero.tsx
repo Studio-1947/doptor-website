@@ -186,15 +186,95 @@ export default function Hero() {
                                     </div>
                                 </div>
 
-                                {/* App content preview */}
+                                {/* App content preview with continuous animations */}
                                 <div className="p-4 space-y-4">
-                                    <div className="h-12 bg-gray-50 rounded-xl animate-pulse" />
-                                    <div className="h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100" />
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div className="h-24 bg-gray-50 rounded-xl" />
-                                        <div className="h-24 bg-gray-50 rounded-xl" />
+                                    {/* Search bar with breathing effect */}
+                                    <div className="h-12 bg-gray-50 rounded-xl flex items-center px-4 gap-3 animate-[breathe_3s_ease-in-out_infinite]">
+                                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                        <div className="h-2 w-24 bg-gray-200 rounded-full" />
                                     </div>
-                                    <div className="h-40 bg-gray-50 rounded-2xl" />
+
+                                    {/* Featured card with gradient and notification badge */}
+                                    <div className="h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100 p-4 relative overflow-hidden animate-[float_6s_ease-in-out_infinite]">
+                                        {/* Animated shimmer effect */}
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_3s_ease-in-out_infinite]" />
+
+                                        {/* Notification badge */}
+                                        <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                                        <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
+
+                                        {/* Content placeholder */}
+                                        <div className="space-y-2">
+                                            <div className="h-3 w-20 bg-blue-200/50 rounded-full" />
+                                            <div className="h-4 w-32 bg-purple-200/50 rounded-full" />
+                                            <div className="h-2 w-24 bg-blue-100/50 rounded-full mt-4" />
+                                        </div>
+                                    </div>
+
+                                    {/* Grid cards with staggered animation */}
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="h-24 bg-gray-50 rounded-xl p-3 flex flex-col justify-between animate-[float_4s_ease-in-out_infinite] [animation-delay:0.5s]">
+                                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="h-2 w-12 bg-gray-200 rounded-full" />
+                                                <div className="h-3 w-16 bg-gray-300 rounded-full" />
+                                            </div>
+                                        </div>
+                                        <div className="h-24 bg-gray-50 rounded-xl p-3 flex flex-col justify-between animate-[float_4s_ease-in-out_infinite] [animation-delay:1s]">
+                                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+                                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="h-2 w-12 bg-gray-200 rounded-full" />
+                                                <div className="h-3 w-16 bg-gray-300 rounded-full" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Progress card with animated bar */}
+                                    <div className="h-40 bg-gray-50 rounded-2xl p-4 space-y-3 animate-[float_5s_ease-in-out_infinite] [animation-delay:1.5s]">
+                                        <div className="flex items-center justify-between">
+                                            <div className="h-3 w-24 bg-gray-300 rounded-full" />
+                                            <div className="h-3 w-12 bg-gray-200 rounded-full" />
+                                        </div>
+
+                                        {/* Animated progress bars */}
+                                        <div className="space-y-2">
+                                            <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                                <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-[progress_3s_ease-in-out_infinite]" style={{ width: '0%' }} />
+                                            </div>
+                                            <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                                <div className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-[progress_3s_ease-in-out_infinite] [animation-delay:0.5s]" style={{ width: '0%' }} />
+                                            </div>
+                                            <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                                <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-[progress_3s_ease-in-out_infinite] [animation-delay:1s]" style={{ width: '0%' }} />
+                                            </div>
+                                        </div>
+
+                                        {/* Stats with counting animation */}
+                                        <div className="grid grid-cols-3 gap-2 pt-2">
+                                            <div className="text-center">
+                                                <div className="h-4 w-8 bg-gray-300 rounded-full mx-auto mb-1" />
+                                                <div className="h-2 w-12 bg-gray-200 rounded-full mx-auto" />
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="h-4 w-8 bg-gray-300 rounded-full mx-auto mb-1" />
+                                                <div className="h-2 w-12 bg-gray-200 rounded-full mx-auto" />
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="h-4 w-8 bg-gray-300 rounded-full mx-auto mb-1" />
+                                                <div className="h-2 w-12 bg-gray-200 rounded-full mx-auto" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Home Indicator */}
@@ -208,9 +288,9 @@ export default function Hero() {
                             <div className="absolute top-40 -right-[7px] w-[2px] h-16 bg-gray-200 rounded-r-md" /> {/* Power */}
 
                             {/* Floating Stats Card */}
-                            <div className="absolute -bottom-6 -left-12 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 flex flex-col gap-3 w-48 animate-bounce-slow">
+                            <div className="absolute -bottom-6 -left-12 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 flex flex-col gap-3 w-48 animate-[float_4s_ease-in-out_infinite] [animation-delay:2s]">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">
+                                    <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 animate-[breathe_2s_ease-in-out_infinite]">
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                         </svg>
@@ -219,7 +299,7 @@ export default function Hero() {
                                 </div>
                                 <div className="space-y-1">
                                     <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                                        <div className="h-full w-3/4 bg-green-500 rounded-full" />
+                                        <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-[progress_4s_ease-in-out_infinite]" style={{ width: '0%' }} />
                                     </div>
                                     <p className="text-[10px] text-gray-500 font-medium">75% TARGET ACHIEVED</p>
                                 </div>
