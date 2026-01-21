@@ -25,7 +25,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
         setLoading(true);
         try {
             // Call Backend API
-            const res = await fetch("http://localhost:4000/api/waitlist", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/waitlist`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

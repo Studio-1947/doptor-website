@@ -8,7 +8,7 @@ export default function Hero() {
     const [stats, setStats] = useState({ total: 500, recentUsers: [] });
 
     useEffect(() => {
-        fetch("http://localhost:4000/api/stats")
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.total) setStats(data);
