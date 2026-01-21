@@ -98,24 +98,11 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                                     {!isManual ? (
                                         <div className="space-y-4">
                                             <button
-                                                onClick={async () => {
+                                                onClick={() => {
                                                     setLoading(true);
-                                                    try {
-                                                        await signIn("google", {
-                                                            callbackUrl: window.location.origin,
-                                                            redirect: false
-                                                        });
-                                                        setSuccess(true);
-                                                        setTimeout(() => {
-                                                            onClose();
-                                                            setSuccess(false);
-                                                            setLoading(false);
-                                                        }, 2000);
-                                                    } catch (error) {
-                                                        console.error("OAuth error:", error);
-                                                        alert("Failed to sign in with Google. Please try again.");
-                                                        setLoading(false);
-                                                    }
+                                                    signIn("google", {
+                                                        callbackUrl: window.location.origin,
+                                                    });
                                                 }}
                                                 disabled={loading}
                                                 className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3.5 px-4 rounded-2xl transition-all shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed"

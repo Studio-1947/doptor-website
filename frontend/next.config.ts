@@ -5,14 +5,18 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000", "127.0.0.1:3000"],
+      allowedOrigins: [
+        "localhost:3000",
+        "127.0.0.1:3000",
+        "https://www.doptor.in",
+      ],
     },
   },
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
-        destination: `${process.env.BACKEND_URL || "http://localhost:3000"}/api/:path*`,
+        source: "/api/waitlist/:path*",
+        destination: `${process.env.BACKEND_URL || "https://doptor-backend.vercel.app"}/api/waitlist/:path*`,
       },
     ];
   },
