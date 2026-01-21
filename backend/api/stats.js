@@ -18,7 +18,9 @@ const handler = async (req, res) => {
       return res.json({ total, recentUsers });
     } catch (error) {
       console.error("Stats Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error", details: error.message });
     }
   } else {
     res.setHeader("Allow", ["GET"]);
