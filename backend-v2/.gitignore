@@ -35,5 +35,5 @@ yarn-error.log*
 # OS metadata
 Thumbs.db
 
-# Drizzle (if you don't want to commit migrations, though usually you do)
+
 # drizzle/
