@@ -98,8 +98,27 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                                     {!isManual ? (
                                         <div className="space-y-4">
                                             <button
-                                                onClick={() => signIn("google")}
-                                                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3.5 px-4 rounded-2xl transition-all shadow-sm group"
+                                                onClick={async () => {
+                                                    setLoading(true);
+                                                    try {
+                                                        await signIn("google", {
+                                                            callbackUrl: window.location.origin,
+                                                            redirect: false
+                                                        });
+                                                        setSuccess(true);
+                                                        setTimeout(() => {
+                                                            onClose();
+                                                            setSuccess(false);
+                                                            setLoading(false);
+                                                        }, 2000);
+                                                    } catch (error) {
+                                                        console.error("OAuth error:", error);
+                                                        alert("Failed to sign in with Google. Please try again.");
+                                                        setLoading(false);
+                                                    }
+                                                }}
+                                                disabled={loading}
+                                                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3.5 px-4 rounded-2xl transition-all shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                                     <path

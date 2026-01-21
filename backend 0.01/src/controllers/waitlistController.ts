@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 export const createWaitlistEntry = async (req: Request, res: Response) => {
   try {
-    const { name, email, phone, message } = req.body;
+    const { name, email, phone, message, userId, image } = req.body;
 
     if (!email || !name) {
       return res.status(400).json({ error: "Name and email are required" });
@@ -16,6 +16,15 @@ export const createWaitlistEntry = async (req: Request, res: Response) => {
     });
 
     if (existingEntry) {
+      // Update existing entry if userId is provided (OAuth flow)
+      if (userId) {
+        const [updated] = await db
+          .update(waitlistEntries)
+          .set({ userId, image, name, phone, message })
+          .where(eq(waitlistEntries.email, email))
+          .returning();
+        return res.status(200).json(updated);
+      }
       return res.status(400).json({ error: "Email already registered" });
     }
 
@@ -26,6 +35,8 @@ export const createWaitlistEntry = async (req: Request, res: Response) => {
         email,
         phone,
         message,
+        userId,
+        image,
       })
       .returning();
 

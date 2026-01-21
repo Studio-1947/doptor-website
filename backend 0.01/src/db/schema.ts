@@ -74,9 +74,11 @@ export const waitlistEntries = pgTable("WaitlistEntry", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId").references(() => users.id, { onDelete: "set null" }),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   phone: text("phone"),
   message: text("message"),
+  image: text("image"),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
