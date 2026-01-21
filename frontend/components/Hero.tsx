@@ -15,7 +15,7 @@ export default function Hero() {
         const fetchStats = async () => {
             try {
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
-                const res = await fetch(`${apiUrl}/api/stats`);
+                const res = await fetch(`${apiUrl}/api/waitlist/stats`);
                 const data = await res.json();
 
                 if (data.count !== undefined) {
@@ -26,7 +26,6 @@ export default function Hero() {
                 }
             } catch (err) {
                 console.error("Failed to fetch stats:", err);
-                // Keep default values on error
             } finally {
                 setLoading(false);
             }
@@ -60,55 +59,46 @@ export default function Hero() {
                     </div>
 
                     {/* Social Proof (Stacked Images) */}
-                    <div className="flex items-center gap-4">
-                        <div className="flex -space-x-3">
-                            {loading ? (
-                                // Loading skeleton
-                                [1, 2, 3, 4, 5].map((i) => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 animate-pulse" />
-                                ))
-                            ) : stats.recentUsers.length > 0 ? (
-                                stats.recentUsers.map((user: any, i: number) => (
-                                    <div
-                                        key={i}
-                                        className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold shadow-md"
-                                    >
-                                        {user.image ? (
-                                            <img
-                                                src={user.image}
-                                                alt={user.name}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <span>{user.initials || "?"}</span>
-                                        )}
-                                    </div>
-                                ))
-                            ) : (
-                                // Placeholder when no users
-                                [1, 2, 3, 4, 5].map((i) => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gray-200">
-                                        <img
-                                            src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                                            alt={`User ${i}`}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                ))
-                            )}
+                    {stats.count > 0 && (
+                        <div className="flex items-center gap-4">
+                            <div className="flex -space-x-3">
+                                {loading ? (
+                                    // Loading skeleton
+                                    [1, 2, 3, 4, 5].map((i) => (
+                                        <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 animate-pulse" />
+                                    ))
+                                ) : (
+                                    stats.recentUsers.map((user: any, i: number) => (
+                                        <div
+                                            key={i}
+                                            className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold shadow-md"
+                                        >
+                                            {user.image ? (
+                                                <img
+                                                    src={user.image}
+                                                    alt={user.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <span>{user.initials || "?"}</span>
+                                            )}
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                            <div className="text-sm text-foreground-light">
+                                {loading ? (
+                                    <div className="h-6 w-24 bg-gray-200 rounded animate-pulse" />
+                                ) : (
+                                    <>
+                                        <span className="font-bold text-primary text-lg">
+                                            {stats.count}+
+                                        </span> joined the waitlist
+                                    </>
+                                )}
+                            </div>
                         </div>
-                        <div className="text-sm text-foreground-light">
-                            {loading ? (
-                                <div className="h-6 w-24 bg-gray-200 rounded animate-pulse" />
-                            ) : (
-                                <>
-                                    <span className="font-bold text-primary text-lg">
-                                        {stats.count > 0 ? stats.count : "500"}+
-                                    </span> joined the waitlist
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    )}
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
