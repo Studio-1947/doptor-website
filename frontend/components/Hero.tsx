@@ -15,6 +15,7 @@ export default function Hero() {
         const fetchStats = async () => {
             try {
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://doptor-backend.vercel.app";
+                console.log("Using API URL:", apiUrl);
                 console.log("Fetching stats from:", `${apiUrl}/api/stats`);
                 const res = await fetch(`${apiUrl}/api/stats`);
                 console.log("Response status:", res.status);
@@ -74,12 +75,13 @@ export default function Hero() {
                                     stats.recentUsers.map((user: any, i: number) => (
                                         <div
                                             key={i}
-                                            className="w-10 h-10 rounded-full border-2 border-white overflow-hidden relative bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold shadow-md"
+                                            className={`w-10 h-10 rounded-full border-2 border-white overflow-hidden relative flex items-center justify-center text-white text-xs font-bold shadow-md ${user.image ? "bg-white" : "bg-gradient-to-br from-purple-400 to-pink-400"
+                                                }`}
                                         >
                                             {user.image ? (
                                                 <img
                                                     src={user.image}
-                                                    alt={user.name}
+                                                    alt={user.name || "User"}
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (

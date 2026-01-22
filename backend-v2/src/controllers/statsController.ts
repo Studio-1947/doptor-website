@@ -14,17 +14,44 @@ export const getWaitlistStats = async (req: Request, res: Response) => {
     const waitlistCount = waitlistCountResult?.count || 0;
     const total = userCount + waitlistCount + 500; // +500 base as per design
 
-    // Get recent avatars (from User table only, as WaitlistEntry has no image)
-    const recentUsers = await db
+    // Get recent users from both tables
+    const recentGoogleUsers = await db
       .select({
-        image: users.image,
         name: users.name,
+        image: users.image,
+        createdAt: users.createdAt,
       })
       .from(users)
       .orderBy(desc(users.createdAt))
       .limit(5);
 
-    return res.json({ total, recentUsers });
+    const recentWaitlistUsers = await db
+      .select({
+        name: waitlistEntries.name,
+        createdAt: waitlistEntries.createdAt,
+      })
+      .from(waitlistEntries)
+      .orderBy(desc(waitlistEntries.createdAt))
+      .limit(5);
+
+    // Merge and sort
+    const allRecent = [
+      ...recentGoogleUsers.map((u) => ({
+        ...u,
+        initials: u.name ? u.name.charAt(0).toUpperCase() : "?",
+        source: "google",
+      })),
+      ...recentWaitlistUsers.map((u) => ({
+        ...u,
+        image: null,
+        initials: u.name ? u.name.charAt(0).toUpperCase() : "?",
+        source: "waitlist",
+      })),
+    ]
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, 5);
+
+    return res.json({ total, recentUsers: allRecent });
   } catch (error) {
     console.error("Stats Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
