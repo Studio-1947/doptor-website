@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import AnimatedLogo from "./AnimatedLogo";
 
@@ -47,9 +48,13 @@ export default function Navbar() {
 
                         {/* CTA Button */}
                         <div className="hidden md:block">
-                            <button className="bg-primary-gradient hover:opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium transition-all hover:shadow-lg hover:scale-105">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-primary-gradient hover:opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium transition-all hover:shadow-lg"
+                            >
                                 Get Started
-                            </button>
+                            </motion.button>
                         </div>
 
                         {/* Mobile Menu Button */}
@@ -115,9 +120,13 @@ export default function Navbar() {
                                 >
                                     Contact
                                 </Link>
-                                <button className="bg-primary-gradient hover:opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium transition-all w-full">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="bg-primary-gradient hover:opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium transition-all w-full"
+                                >
                                     Get Started
-                                </button>
+                                </motion.button>
                             </div>
                         </div>
                     )}

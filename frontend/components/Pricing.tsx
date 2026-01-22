@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Pricing() {
     const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("annual");
@@ -109,8 +110,13 @@ export default function Pricing() {
                 {/* Pricing Cards */}
                 <div className="grid md:grid-cols-3 gap-8 mt-12">
                     {plans.map((plan, index) => (
-                        <div
+                        <motion.div
                             key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ y: -8 }}
                             className={`relative rounded-3xl p-8 transition-all duration-300 ${plan.highlighted
                                 ? "bg-gradient-to-br from-primary to-primary-dark text-white shadow-2xl scale-105 md:scale-110"
                                 : "bg-white shadow-lg hover:shadow-xl"
@@ -200,7 +206,7 @@ export default function Pricing() {
                             >
                                 Get Started
                             </button>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

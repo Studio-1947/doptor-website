@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Features() {
     const features = [
         {
@@ -61,8 +65,12 @@ export default function Features() {
                 {/* Feature Cards */}
                 <div className="grid md:grid-cols-3 gap-8">
                     {features.map((feature, index) => (
-                        <div
+                        <motion.div
                             key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.2 }}
                             className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group"
                         >
                             {/* Icon */}
@@ -127,7 +135,7 @@ export default function Features() {
                                     </svg>
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>

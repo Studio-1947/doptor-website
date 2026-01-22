@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Showcase() {
     return (
         <section className="py-20 px-4 bg-gradient-to-br from-background-dark to-background-darker text-white">
@@ -20,8 +24,28 @@ export default function Showcase() {
                         </div>
 
                         {/* Feature List */}
-                        <div className="space-y-4">
-                            <div className="flex items-start gap-4">
+                        <motion.div
+                            className="space-y-4"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={{
+                                hidden: { opacity: 0 },
+                                visible: {
+                                    opacity: 1,
+                                    transition: {
+                                        staggerChildren: 0.2
+                                    }
+                                }
+                            }}
+                        >
+                            <motion.div
+                                className="flex items-start gap-4"
+                                variants={{
+                                    hidden: { opacity: 0, x: -20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+                                }}
+                            >
                                 <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <svg
                                         className="w-6 h-6 text-primary"
@@ -46,9 +70,15 @@ export default function Showcase() {
                                         experience across all devices.
                                     </p>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="flex items-start gap-4">
+                            <motion.div
+                                className="flex items-start gap-4"
+                                variants={{
+                                    hidden: { opacity: 0, x: -20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+                                }}
+                            >
                                 <div className="w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <svg
                                         className="w-6 h-6 text-secondary"
@@ -73,9 +103,15 @@ export default function Showcase() {
                                         standards and encryption.
                                     </p>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="flex items-start gap-4">
+                            <motion.div
+                                className="flex items-start gap-4"
+                                variants={{
+                                    hidden: { opacity: 0, x: -20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+                                }}
+                            >
                                 <div className="w-12 h-12 bg-accent-green/20 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <svg
                                         className="w-6 h-6 text-accent-green"
@@ -100,12 +136,18 @@ export default function Showcase() {
                                         they are.
                                     </p>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
 
                     {/* Right Content - App Mockups */}
-                    <div className="relative">
+                    <motion.div
+                        className="relative"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
                         {/* Decorative gradient */}
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-3xl" />
 
@@ -156,7 +198,7 @@ export default function Showcase() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

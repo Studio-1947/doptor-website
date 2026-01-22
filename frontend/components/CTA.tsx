@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function CTA() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,13 @@ export default function CTA() {
     return (
         <section className="py-20 px-4 bg-gradient-to-br from-background-light to-purple-50">
             <div className="max-w-4xl mx-auto">
-                <div className="bg-primary-gradient rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="bg-primary-gradient rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
+                >
                     {/* Decorative elements */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -89,7 +96,7 @@ export default function CTA() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

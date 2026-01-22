@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import RegistrationModal from "./RegistrationModal";
 
 export default function Hero() {
@@ -41,15 +42,43 @@ export default function Hero() {
         return () => clearInterval(interval);
     }, []);
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.3,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+                ease: "easeOut" as const,
+            },
+        },
+    };
+
     return (
         <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 md:pt-40 pb-16 overflow-hidden">
             {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-background via-background-light to-purple-50 -z-10" />
 
-            <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+                className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
                 {/* Left Content */}
                 <div className="space-y-8">
-                    <div className="space-y-4">
+                    <motion.div className="space-y-4" variants={itemVariants}>
                         <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-normal leading-tight text-[#A596B4]">
                             the super app for{" "}
                             <span className="font-bold bg-[linear-gradient(116.26deg,#6366F1_0%,#F43F5E_100%)] bg-clip-text text-transparent">
@@ -60,11 +89,11 @@ export default function Hero() {
                             A new way to manage your work, collaborate with your team, and get
                             things done. All in one place.
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Social Proof (Stacked Images) */}
                     {stats.count > 0 && (
-                        <div className="flex items-center gap-4">
+                        <motion.div className="flex items-center gap-4" variants={itemVariants}>
                             <div className="flex -space-x-3">
                                 {loading ? (
                                     // Loading skeleton
@@ -102,14 +131,16 @@ export default function Hero() {
                                     </>
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     )}
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <button
+                    <motion.div className="flex flex-col sm:flex-row gap-4" variants={itemVariants}>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => setIsModalOpen(true)}
-                            className="bg-primary-gradient hover:opacity-90 text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                            className="bg-primary-gradient hover:opacity-90 text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-xl flex items-center justify-center gap-2"
                         >
                             Join Waitlist
                             <svg
@@ -125,8 +156,12 @@ export default function Hero() {
                                     d="M13 7l5 5m0 0l-5 5m5-5H6"
                                 />
                             </svg>
-                        </button>
-                        <button className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-lg flex items-center justify-center gap-2">
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-lg flex items-center justify-center gap-2"
+                        >
                             <svg
                                 className="w-5 h-5"
                                 fill="none"
@@ -147,12 +182,17 @@ export default function Hero() {
                                 />
                             </svg>
                             See how it works
-                        </button>
-                    </div>
+                        </motion.button>
+                    </motion.div>
                 </div>
 
                 {/* Right Content - Phone Mockup */}
-                <div className="relative flex justify-center lg:justify-end">
+                <motion.div
+                    className="relative flex justify-center lg:justify-end"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                >
                     <div className="relative">
                         {/* Decorative elements */}
                         <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl -z-10" />
@@ -301,8 +341,8 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </section>
