@@ -78,7 +78,7 @@ export default function Footer() {
                 <div className="pt-8 border-t border-white/10">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-gray-400 text-sm">
-                            © 2026 Doptor. All rights reserved.
+                            © 2024 Doptor. An initiative of Studio 1947. All rights reserved.
                         </p>
                         <div className="flex gap-6 text-sm text-gray-400">
                             <Link href="#" className="hover:text-white transition-colors">
