@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import TextReveal from "./TextReveal";
 
 export default function Pricing() {
     const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("annual");
@@ -64,9 +65,10 @@ export default function Pricing() {
             <div className="max-w-7xl mx-auto">
                 {/* Section Header */}
                 <div className="text-center mb-12 space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-display font-bold">
-                        Early Bird Registration
-                    </h2>
+                    <TextReveal
+                        text="Early Bird Registration"
+                        className="text-4xl md:text-5xl font-display font-bold"
+                    />
                     <p className="text-lg text-foreground-light max-w-2xl mx-auto">
                         Get exclusive early access pricing. Limited time offer for the first
                         1000 users.

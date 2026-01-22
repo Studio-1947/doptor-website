@@ -7,6 +7,14 @@ import AnimatedLogo from "./AnimatedLogo";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+    const navLinks = [
+        { href: "#features", label: "Features" },
+        { href: "#pricing", label: "Pricing" },
+        { href: "#about", label: "About" },
+        { href: "#contact", label: "Contact" },
+    ];
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
@@ -19,31 +27,26 @@ export default function Navbar() {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center gap-8">
-                            <Link
-                                href="#features"
-                                className="text-foreground-light hover:text-foreground transition-colors text-sm font-medium"
-                            >
-                                Features
-                            </Link>
-                            <Link
-                                href="#pricing"
-                                className="text-foreground-light hover:text-foreground transition-colors text-sm font-medium"
-                            >
-                                Pricing
-                            </Link>
-                            <Link
-                                href="#about"
-                                className="text-foreground-light hover:text-foreground transition-colors text-sm font-medium"
-                            >
-                                About
-                            </Link>
-                            <Link
-                                href="#contact"
-                                className="text-foreground-light hover:text-foreground transition-colors text-sm font-medium"
-                            >
-                                Contact
-                            </Link>
+                        <div className="hidden md:flex items-center gap-8" onMouseLeave={() => setHoveredIndex(null)}>
+                            {navLinks.map((link, index) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className="relative text-foreground-light hover:text-foreground transition-colors text-sm font-medium px-2 py-1"
+                                    onMouseEnter={() => setHoveredIndex(index)}
+                                >
+                                    {link.label}
+                                    {hoveredIndex === index && (
+                                        <motion.div
+                                            layoutId="navbar-hover"
+                                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                        />
+                                    )}
+                                </Link>
+                            ))}
                         </div>
 
                         {/* CTA Button */}
