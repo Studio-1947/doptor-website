@@ -8,6 +8,7 @@ import Workflow from "@/components/Workflow";
 import FAQ from "@/components/FAQ";
 import MouseFollower from "@/components/MouseFollower";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <CTA />
       <Footer />
       <MouseFollower />
+      <ScrollToTop />
     </div>
   );
 }
