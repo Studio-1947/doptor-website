@@ -3,6 +3,10 @@
     {
       "source": "/mla/:path*",
       "destination": "https://lok-map.vercel.app/mla/:path*"
+    },
+    {
+      "source": "/mla",
+      "destination": "https://lok-map.vercel.app/mla"
     }
   ]
 }
