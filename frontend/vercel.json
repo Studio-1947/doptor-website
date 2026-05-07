@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/mla/:path*",
+      "destination": "https://lok-map.vercel.app/mla/:path*"
+    }
+  ]
+}
